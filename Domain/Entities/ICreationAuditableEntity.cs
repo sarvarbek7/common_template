@@ -6,5 +6,5 @@ public interface ICreationAuditableEntity<TAudit, TAuditId>
 {
     DateTime CreatedAt { get; set; }
     TAudit? CreatedBy { get; set; }
-    TAuditId CreatedById { get; set; }
+    TAuditId? CreatedById { get; set; }
 }
