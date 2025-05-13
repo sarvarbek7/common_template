@@ -1,5 +1,4 @@
 ﻿using Application.Common;
-using Contacts.Contracts;
 using Contracts.Common;
 
 namespace Mappings;

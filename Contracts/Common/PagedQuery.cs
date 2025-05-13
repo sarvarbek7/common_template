@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Contacts.Contracts;
+namespace Contracts.Common;
 
 public record PagedRecordQuery
 {
