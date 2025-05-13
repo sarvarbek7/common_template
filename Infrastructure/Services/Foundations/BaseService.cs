@@ -75,7 +75,23 @@ where TId : struct
 
         if (storedEntity is null)
         {
-            return ApplicationErrors.EntityNotFound<T, TId>(id);
+            return ApplicationErrors.EntityNotFoundForGivenId<T, TId>(id);
+        }
+
+        return storedEntity;
+    }
+
+    public async Task<ErrorOr<T>> GetFirstMatch(Expression<Func<T, bool>> predicate, bool tracked = true, bool ignoreQueryFilters = false, IEnumerable<string>? includeStrings = null, CancellationToken cancellationToken = default)
+    {
+        var storedEntity = await repository.GetFirstMatch(predicate,
+                                                          tracked,
+                                                          ignoreQueryFilters,
+                                                          includeStrings,
+                                                          cancellationToken);
+
+        if (storedEntity is null)
+        {
+            return ApplicationErrors.EntityNotFound<T>();
         }
 
         return storedEntity;

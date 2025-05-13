@@ -15,6 +15,7 @@ public interface IBaseService<T, in TId> : IBaseService
         bool tracked = true,
         bool ignoreQueryFilters = false);
     Task<ErrorOr<T>> GetById(TId id, bool tracked = true, bool ignoreQueryFilters = false, IEnumerable<string>? includeStrings = null, CancellationToken cancellationToken = default);
+    Task<ErrorOr<T>> GetFirstMatch(Expression<Func<T, bool>> predicate, bool tracked = true, bool ignoreQueryFilters = false, IEnumerable<string>? includeStrings = null, CancellationToken cancellationToken = default);
     Task<ErrorOr<Created>> Add(T entity, bool saveChanges = true, CancellationToken cancellationToken = default);
     Task<ErrorOr<Updated>> Update(T entity, bool saveChanges = true, CancellationToken cancellationToken = default);
     Task<ErrorOr<Deleted>> Delete(T entity, bool saveChanges = true, CancellationToken cancellationToken = default);

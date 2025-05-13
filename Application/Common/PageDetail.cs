@@ -2,7 +2,7 @@ namespace Application.Common;
 
 public class PageDetail
 {
-    private static PageDetail @default = new PageDetail();
+    private static PageDetail @default = new();
     
     private PageDetail()
     {

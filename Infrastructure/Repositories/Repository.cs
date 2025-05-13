@@ -74,9 +74,18 @@ public abstract class Repository<TContext, T, TId>(TContext context) : IReposito
     public async Task<T?> GetFirstMatch(Expression<Func<T, bool>> predicate,
         bool tracked = true,
         bool ignoreQueryFilters = false,
+        IEnumerable<string>? includeStrings = null,
         CancellationToken cancellationToken = default)
     {
         var query = GetAll(predicate, tracked, ignoreQueryFilters);
+
+        if (includeStrings is not null)
+        {
+            foreach (var includeString in includeStrings)
+            {
+                query = query.Include(includeString);
+            }
+        }
 
         return await query.FirstOrDefaultAsync(cancellationToken);
     }

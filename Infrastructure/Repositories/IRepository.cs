@@ -1,7 +1,5 @@
-using System.Data.Common;
 using System.Linq.Expressions;
 using Domain.Entities;
-using Microsoft.EntityFrameworkCore.Storage;
 
 namespace Infrastructure.Repositories;
 
@@ -26,6 +24,7 @@ public interface IRepository<T, in TId>
     Task<T?> GetFirstMatch(Expression<Func<T, bool>> predicate,
         bool tracked = true,
         bool ignoreQueryFilters = false,
+        IEnumerable<string>? includeStrings = null,
         CancellationToken cancellationToken = default);
 
     Task Add(T entity,

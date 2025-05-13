@@ -13,15 +13,25 @@ public static class ApplicationErrors
                                   args: nameof(T));
     }
 
-    public static Error EntityNotFound<T, TId>(TId id)
+    public static Error EntityNotFoundForGivenId<T, TId>(TId id)
         where TId : struct
         where T : class, IEntity<TId>
     {
         string entityName = typeof(T).Name;
 
-        return ErrorBuilder.Build($"Common.EntityNotFound",
+        return ErrorBuilder.Build($"Common.EntityNotFoundForGivenId",
                                   ErrorType.NotFound,
                                   entityName,
                                   id);
+    }
+
+    public static Error EntityNotFound<T>()
+        where T : class, IEntity
+    {
+        string entityName = typeof(T).Name;
+
+        return ErrorBuilder.Build($"Common.EntityNotFound",
+                                  ErrorType.NotFound,
+                                  entityName);
     }
 }

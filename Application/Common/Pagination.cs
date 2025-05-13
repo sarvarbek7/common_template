@@ -8,7 +8,7 @@ public class Pagination
     private readonly uint pageNumber = DefaultPageNumber;
     private readonly uint pageSize = DefaultPageSize;
 
-    private static Pagination @default = new Pagination(); 
+    private static readonly Pagination @default = new(); 
 
     private Pagination()
     {
