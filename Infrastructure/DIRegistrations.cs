@@ -1,5 +1,7 @@
 using System.Reflection;
+using Application.ProcessingServices;
 using Application.Services.Foundations;
+using Infrastructure.ProcessingServices;
 using Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -7,6 +9,11 @@ namespace Infrastructure;
 
 public static class DIRegistrations
 {
+    public static void AddTranslationServices(this IServiceCollection services)
+    {
+        services.AddSingleton<ITranslationService, TranslationService>();
+    }
+
     public static void AddRepositories(this IServiceCollection services, Assembly givenAssembly)
     {
         var repositories = givenAssembly.DefinedTypes
