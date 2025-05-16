@@ -2,8 +2,12 @@ namespace Application.Common;
 
 public class Pagination
 {
+#pragma warning disable CA2211 // Non-constant fields should not be visible
+    public static uint DefaultPageSize = 25;
+    public static uint MaxPageSize = 500;
+#pragma warning restore CA2211 // Non-constant fields should not be visible
+
     private const uint DefaultPageNumber = 1;
-    private const uint DefaultPageSize = 25;
     
     private readonly uint pageNumber = DefaultPageNumber;
     private readonly uint pageSize = DefaultPageSize;
@@ -18,7 +22,14 @@ public class Pagination
     {
         if (pageSize.HasValue && pageSize.Value != 0)
         {
-            this.pageSize = pageSize.Value;
+            if (pageSize <= MaxPageSize)
+            {
+                this.pageSize = pageSize.Value;
+            }
+            else
+            {
+                this.pageSize = MaxPageSize;
+            }
         }
 
         if (pageNumber.HasValue && pageNumber.Value != 0)

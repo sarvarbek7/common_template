@@ -6,12 +6,14 @@ public class ListResult<TData>
     public IQueryable<TData>? Query { get; init; } = null;
     public ICollection<TData>? Data { get; init; } = null;
 
+    public bool IsQueryable => Query != null;
+
     private ListResult(Pagination pagination, int recordsCount)
     {
         PageDetail = new PageDetail(pagination, recordsCount);
     }
 
-    public static ListResult<TData> FromQueryable(IQueryable<TData> query,
+    internal static ListResult<TData> FromQueryable(IQueryable<TData> query,
                                               Pagination pagination,
                                               int recordsCount)
     {
@@ -21,7 +23,7 @@ public class ListResult<TData>
         };
     }
 
-    public static ListResult<TData> FromCollection(ICollection<TData> data,
+    internal static ListResult<TData> FromCollection(ICollection<TData> data,
                                               Pagination pagination,
                                               int recordsCount)
     {
