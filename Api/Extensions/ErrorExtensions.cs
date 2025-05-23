@@ -62,7 +62,6 @@ public static class ErrorExtensions
             Title = title,
             Status = statusCode,
             Detail = desription,
-            Instance = error.Code,
             Extensions = extensions,
             Type = null
         };
