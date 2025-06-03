@@ -63,7 +63,6 @@ public static class ErrorExtensions
             Status = statusCode,
             Detail = desription,
             Extensions = extensions,
-            Type = null
         };
     }
 }
