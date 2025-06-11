@@ -35,14 +35,14 @@ public class ListResult<TData>
         this.data = data;
     }
 
-    internal static ListResult<TData> FromQueryable(IQueryable<TData> query,
+    public static ListResult<TData> FromQueryable(IQueryable<TData> query,
                                               Pagination pagination,
                                               int recordsCount)
     {
         return new ListResult<TData>(pagination, recordsCount, query);
     }
 
-    internal static ListResult<TData> FromCollection(ICollection<TData> data,
+    public static ListResult<TData> FromCollection(ICollection<TData> data,
                                               Pagination pagination,
                                               int recordsCount)
     {
