@@ -6,6 +6,53 @@ namespace Infrastructure.Persistance;
 
 public static class ModelBuilderExtensions
 {
+    public static void AddTranslationConfig(this ModelBuilder modelBuilder, params Type[] ignoredTypes)
+    {
+        foreach (var entityType in modelBuilder.Model.GetEntityTypes()
+            .Where(t => t.ClrType.GetInterfaces().Any(i =>
+                i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ITranslatable<,>))))
+        {
+            var clrType = entityType.ClrType;
+
+            if (ignoredTypes.Contains(clrType))
+            {
+                continue;
+            }
+
+            // Get the generic ITranslatable<T, TTranslation> interface
+            var translatableInterface = clrType.GetInterfaces()
+            .First(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ITranslatable<,>));
+
+            // Get the TTranslation type from the interface
+            var translationType = translatableInterface.GetGenericArguments()[1];
+
+            // Get the Translations property
+            var translationsProperty = clrType.GetProperty("Translations");
+
+            if (translationsProperty == null)
+            {
+                continue; // Skip if Translations property is not found
+            }
+
+            // Define the foreign key name (e.g., HandbookId for Handbook)
+            var entityName = clrType.Name;
+            var foreignKeyName = $"{entityName}Id";
+
+            // Configure OwnsMany for the Translations property
+            modelBuilder.Entity(clrType).OwnsMany(
+                translationType,
+                translationsProperty.Name,
+                builder =>
+                {
+                    // Configure the foreign key
+                    builder.WithOwner().HasForeignKey(foreignKeyName);
+
+                    // Configure the composite key: (EntityId, Language)
+                    builder.HasKey(foreignKeyName, nameof(ITranslation.Language));
+                });
+        }
+    }
+
     public static void AddIsDeletedQueryFilters(this ModelBuilder modelBuilder)
     {
         foreach (var entityType in modelBuilder.Model.GetEntityTypes()
