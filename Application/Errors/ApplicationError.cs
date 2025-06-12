@@ -6,9 +6,11 @@ namespace Application.Errors;
 
 public static class ApplicationErrors
 {
+    private const string errorPrefix = "Common";
+
     public static Error InvalidId<T>()
     {
-        return ErrorBuilder.Build(code: "Common.InvalidId",
+        return ErrorBuilder.Build(code: $"{errorPrefix}.InvalidId",
                                   type: ErrorType.Validation,
                                   args: nameof(T));
     }
@@ -19,7 +21,7 @@ public static class ApplicationErrors
     {
         string entityName = typeof(T).Name;
 
-        return ErrorBuilder.Build($"Common.EntityNotFoundForGivenId",
+        return ErrorBuilder.Build($"{errorPrefix}.EntityNotFoundForGivenId",
                                   ErrorType.NotFound,
                                   entityName,
                                   id);
@@ -30,8 +32,11 @@ public static class ApplicationErrors
     {
         string entityName = typeof(T).Name;
 
-        return ErrorBuilder.Build($"Common.EntityNotFound",
+        return ErrorBuilder.Build($"{errorPrefix}.EntityNotFound",
                                   ErrorType.NotFound,
                                   entityName);
     }
+
+    public static Error DefaultLanguageCanNotBeMoreThanOne => Error.Validation($"{errorPrefix}.DefaultLanguageCanNotBeMoreThanOne");
+    public static Error AtLeastOneDefaultLanguageMustSet => Error.Validation($"{errorPrefix}.AtLeastOneDefaultLanguageMustSet");
 }

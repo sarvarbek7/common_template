@@ -60,7 +60,6 @@ public class ListResult<TData>
         {
             return [.. Data!.Select(selector.Compile())];
         }
-
     }
 
     public async Task<IEnumerable<TData>> GetData(CancellationToken cancellationToken = default)
